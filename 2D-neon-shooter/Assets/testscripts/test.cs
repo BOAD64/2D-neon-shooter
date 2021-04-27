@@ -2,45 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class test : MonoBehaviour
 {
-    public float speed;
-    public bool killPlayer = false;
+    [SerializeField] private float speed;
+    [SerializeField] private GameObject ball;
+    [SerializeField] private float bombSpeed;
+    [SerializeField] private GameObject cuserObject;
+    [SerializeField] private Transform BulletPos;
+    [SerializeField] private float FireRate;
 
-    public GameObject ball;
+    Rigidbody2D rb;
+    float xInput, yInput;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        //gameObject.GetComponent<Renderer>().material.color = Color.green;
-        //InvokeRepeating("spawnBall", 0.5f, 0.5f);
+        StartCoroutine("testCoroutine");
     }
 
     // Update is called once per frame
     void Update()
     {
-        //transform.Translate(speed, 0, 0);
+        Vector3 dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Fire1"))
         {
-            Invoke("spawnBall", 0f);
-            transform.Translate(speed, 0, 0);
+            InvokeRepeating("spawnBall", 0f, FireRate);
         }
 
-        if (killPlayer)
+        if (Input.GetButtonUp("Fire1"))
         {
-            Destroy(gameObject);
+            CancelInvoke("spawnBall");
         }
 
-        float xInput = Input.GetAxis("Horizontal");
-        float yInput = Input.GetAxis("Vertical");
+        xInput = Input.GetAxis("Horizontal");
+        yInput = Input.GetAxis("Vertical");
+    }
 
-        transform.Translate(xInput * speed, yInput * speed, 0);
-
+    void FixedUpdate()
+    {
+        rb.velocity = new Vector3(xInput * speed, yInput * speed, 0);
     }
 
     void spawnBall()
     {
-        Instantiate(ball, transform.position + new Vector3(0, -0.5f, 0), Quaternion.identity);
+        GameObject bomb = Instantiate(ball, BulletPos.position, transform.rotation);
+        bomb.GetComponent<Rigidbody2D>().velocity = transform.right * bombSpeed;
+    }
+
+    IEnumerator testCoroutine()
+    {
+        print("Coroutine start");
+        yield return new WaitForSeconds(4f);
+        print("wha yo");
+        yield return new WaitForSeconds(2f);
+        print("done");
     }
 }
