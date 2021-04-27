@@ -23,7 +23,7 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine("testCoroutine");
+        //StartCoroutine("testCoroutine");
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class test : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-        if (Input.GetButtonDown("Fire1"))
+        /*if (Input.GetButtonDown("Fire1"))
         {
             InvokeRepeating("spawnBall", 0f, FireRate);
         }
@@ -41,7 +41,7 @@ public class test : MonoBehaviour
         if (Input.GetButtonUp("Fire1"))
         {
             CancelInvoke("spawnBall");
-        }
+        }*/
 
         xInput = Input.GetAxis("Horizontal");
         yInput = Input.GetAxis("Vertical");
