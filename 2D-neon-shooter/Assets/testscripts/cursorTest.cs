@@ -13,10 +13,10 @@ public class cursorTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(0))
+        /*if(Input.GetMouseButton(0))
         {
             print(Input.mousePosition.x + " " + Input.mousePosition.y);
-        }
+        }*/
 
         Vector3 pos = Input.mousePosition;
 
