@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class test : MonoBehaviour
 {
-    public float speed;
-    public GameObject ball;
-    public float bombSpeed;
-    public GameObject cuserObject;
-    public Transform BulletPos;
+    [SerializeField] private float speed;
+    [SerializeField] private GameObject ball;
+    [SerializeField] private float bombSpeed;
+    [SerializeField] private GameObject cuserObject;
+    [SerializeField] private Transform BulletPos;
+    [SerializeField] private float FireRate;
 
     Rigidbody2D rb;
     float xInput, yInput;
@@ -21,22 +23,22 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine("testCoroutine");
     }
 
     // Update is called once per frame
     void Update()
     {
-        var dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
-        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Vector3 dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Fire1"))
         {
-            InvokeRepeating("spawnBall", 0f, 0.2f);
+            InvokeRepeating("spawnBall", 0f, FireRate);
         }
 
-        if (Input.GetButtonUp("Jump"))
+        if (Input.GetButtonUp("Fire1"))
         {
             CancelInvoke("spawnBall");
         }
@@ -54,5 +56,14 @@ public class test : MonoBehaviour
     {
         GameObject bomb = Instantiate(ball, BulletPos.position, transform.rotation);
         bomb.GetComponent<Rigidbody2D>().velocity = transform.right * bombSpeed;
+    }
+
+    IEnumerator testCoroutine()
+    {
+        print("Coroutine start");
+        yield return new WaitForSeconds(4f);
+        print("wha yo");
+        yield return new WaitForSeconds(2f);
+        print("done");
     }
 }

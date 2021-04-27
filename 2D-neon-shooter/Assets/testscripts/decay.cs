@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class decay : MonoBehaviour
 {
-    public float LifeTime;
+    [SerializeField] private float LifeTime;
 
     // Start is called before the first frame update
     void Start()
