@@ -27,7 +27,7 @@ public class rayShooting : MonoBehaviour
         if (hitInfo)
         {
             lineRender.SetPosition(0, firePoint.position);
-            lineRender.SetPosition(1, hitInfo.point);
+            lineRender.SetPosition(1, cuserObject.position * 100);
             Debug.Log(hitInfo.transform.name + " was hit");
         }
         else
