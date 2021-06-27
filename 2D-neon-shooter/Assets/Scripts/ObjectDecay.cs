@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class decay : MonoBehaviour
+public class ObjectDecay : MonoBehaviour
 {
     [SerializeField] private float LifeTime;
 
